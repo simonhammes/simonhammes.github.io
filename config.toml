@@ -1,0 +1,29 @@
+base_url = "https://simonhammes.github.io"
+
+title = "simonhammes"
+
+compile_sass = true
+
+build_search_index = true
+
+taxonomies = [{ name = "tags" }]
+
+theme = "apollo"
+
+[markdown]
+highlight_code = true
+
+[extra]
+menu = [
+    { name = "/posts", url = "/posts", weight = 1 },
+    # { name = "/projects", url = "/projects", weight = 2 },
+    { name = "/about", url = "/about", weight = 3 },
+    # { name = "/tags", url = "/tags", weight = 4 },
+]
+
+socials = [
+    { name = "github", url = "https://github.com/simonhammes/", icon = "github" },
+]
+
+repo_view = true
+repo_url = "https://github.com/simonhammes/simonhammes.github.io/tree/main/content/"
