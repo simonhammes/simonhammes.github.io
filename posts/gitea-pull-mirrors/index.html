@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<html class="dark light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+
+    
+    
+    
+    <title>
+         Updating Gitea Pull Mirrors in Bulk
+        
+    </title>
+
+        
+            <meta property="og:title" content="Updating Gitea Pull Mirrors in Bulk" />
+        
+     
+
+     
+         
+     
+
+     
+         
+    
+
+    
+    
+
+    
+    
+        <link href=https://blog.simonhammes.de/fonts.css rel="stylesheet" />
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+
+    
+    <link rel="alternate" type="application/atom+xml" title="simonhammes" href="https://blog.simonhammes.de/atom.xml">
+
+
+    
+    
+        <link rel="stylesheet" type="text/css" href=https://blog.simonhammes.de/theme/light.css />
+        <link id="darkModeStyle" rel="stylesheet" type="text/css" href="https://blog.simonhammes.de/theme/dark.css" />
+    
+
+    <!-- Set the correct theme in the script -->
+    <script src=https://blog.simonhammes.de/js/themetoggle.js></script>
+    
+        <script>setTheme(getSavedTheme());</script>
+    
+
+    <link rel="stylesheet" type="text/css" media="screen" href=https://blog.simonhammes.de/main.css />
+
+    
+</head>
+
+
+<body>
+    <div class="content">
+        <header>
+    <div class="main">
+        <a href=https:&#x2F;&#x2F;blog.simonhammes.de>simonhammes</a>
+
+        <div class="socials">
+            
+            <a rel="me" href="https:&#x2F;&#x2F;github.com&#x2F;simonhammes&#x2F;" class="social">
+                <img alt=github src=https://blog.simonhammes.de/social_icons/github.svg>
+            </a>
+            
+        </div>
+    </div>
+
+    <nav>
+        
+        <a href=https://blog.simonhammes.de/posts style="margin-left: 0.5em">&#x2F;posts</a>
+        
+        <a href=https://blog.simonhammes.de/about style="margin-left: 0.5em">&#x2F;about</a>
+        
+
+        
+        |<a id="dark-mode-toggle" onclick="toggleTheme(); event.preventDefault();" href="#">
+            <img src=https://blog.simonhammes.de/feather/sun.svg id="sun-icon" style="filter: invert(1);" alt="Light" />
+            <img src=https://blog.simonhammes.de/feather/moon.svg id="moon-icon" alt="Dark" />
+        </a>
+
+        <!-- Inititialize the theme toggle icons -->
+        <script>updateItemToggleTheme()</script>
+        
+    </nav>
+</header>
+
+
+        
+        
+    
+<main>
+    <article>
+        <div class="title">
+            
+            
+    <div class="page-header">
+        Updating Gitea Pull Mirrors in Bulk<span class="primary-color" style="font-size: 1.6em">.</span>
+    </div>
+
+
+                <div class="meta">
+                    
+                        Posted on <time>2025-01-23</time>
+                    
+
+                    
+
+                    
+
+                    
+                    
+
+                    
+                    
+
+                    
+
+                </div>
+        </div>
+
+        
+
+        
+        
+
+        <section class="body">
+            <h2 id="background"><a class="zola-anchor" href="#background" aria-label="Anchor link for: background">Background</a></h2>
+<p>I use <a href="https://github.com/jaedle/mirror-to-gitea">mirror-to-gitea</a> to backup my personal GitHub repositories onto a private <a href="https://forgejo.org">Forgejo</a> instance.</p>
+<p>mirror-to-gitea expects a GitHub access token in case you want to mirror private repositories.
+I use a <em>fine-grained personal access token</em> to only allow read access to my repositories.</p>
+<p>This works very well for my use case.</p>
+<h2 id="problem"><a class="zola-anchor" href="#problem" aria-label="Anchor link for: problem">Problem</a></h2>
+<p>tl;dr: I'm lazy.</p>
+<p>By default, GitHub PATs have an expiration date.
+It is possible to disable the expiration, but depending on your risk aversion you might not want to do that.</p>
+<p>A few days ago my token expired, which led to errors when Forgejo tried to update the mirrored repositories.
+This meant that I had to update the mirroring configuration through the GUI in every single private repository on my Forgejo instance.</p>
+<h2 id="solution"><a class="zola-anchor" href="#solution" aria-label="Anchor link for: solution">Solution</a></h2>
+<p>Gitea/Forgejo store the auth token inside the <code>config</code> file of each Git repository.
+This allows us to use a combination of CLI tools to update all of the tokens in bulk:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">grep -rl </span><span>&#39;</span><span style="color:#a3be8c;">YOUR_OLD_TOKEN</span><span>&#39; $</span><span style="color:#bf616a;">FORGEJO_VOLUME </span><span>| </span><span style="color:#bf616a;">xargs</span><span> sed</span><span style="color:#bf616a;"> -i </span><span>&#39;</span><span style="color:#a3be8c;">s/YOUR_OLD_TOKEN/YOUR_NEW_TOKEN/g</span><span>&#39;
+</span></code></pre>
+<h2 id="tips"><a class="zola-anchor" href="#tips" aria-label="Anchor link for: tips">Tips</a></h2>
+<p>Use a leading space when copying the command into your terminal to prevent your token from leaking into your <code>.bash_history</code>.
+This requires setting <code>$HISTCONTROL</code> to either <code>ignoredups</code> or <code>ignoreboth</code> (Bash).</p>
+
+        </section>
+    </article>
+</main>
+
+
+
+        
+
+    </div>
+</body>
+
+</html>
